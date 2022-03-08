@@ -1,0 +1,30 @@
+{
+    "name": "SDL.PHP"
+  , "description": "Smart developing library for PHP."
+  , "version": "1.0.0-dev"
+  , "type": "library"
+  , "keywords":[
+        "SDL"
+      , "SDL.PHP"
+      , "Library"
+      , "Framework"
+    ]
+  , "license": "MIT"
+  , "require": {
+        "php": "^8.1"
+      , "ginq/ginq": "^0.2.4"
+      , "nesbot/carbon": "^2.57"
+      , "nette/php-generator": "^4.0"
+      , "phpunit/phpunit": "^9.5"
+      , "ramsey/uuid": "^4.2"
+      , "symfony/mailer": "^6.0"
+      , "twig/twig": "^3.3"
+      , "vlucas/phpdotenv": "^5.4"
+    }
+  , "autoload": {
+        "psr-4": {
+            "Jp\\Skud\\Sdl\\": "src/"
+          , "Jp\\Skud\\SdlTest\\": "tests/"
+        }
+    }
+}
