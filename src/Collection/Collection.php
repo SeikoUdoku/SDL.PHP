@@ -71,6 +71,7 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
 
 
 
+
     /**
      * @inheritDoc
      */
@@ -222,6 +223,8 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
 
         return $this;
     }
+
+
 
 
     /**
