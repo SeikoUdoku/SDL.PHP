@@ -1,11 +1,12 @@
 <?php
-namespace Jp\Skud\Sdl\Collection;
+namespace Jp\Skud\SdlTest\Collection;
 
 use InvalidArgumentException;
+use Jp\Skud\Sdl\Collection\Collection;
+use Jp\Skud\Sdl\Collection\ElementNotFoundException;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Throwable;
-use TypeError;
 
 /**
  * [Jp\Skud\Collection\Collection]の単体テストクラス
@@ -62,16 +63,27 @@ final class CollectionTest extends TestCase
         // ::get()メソッドのテスト
         $this->assertSame(1, $collection->tryGet('B'));
 
-        $this->expectException(ElementNotFoundException::class);
-        $collection->get('X');
+        try
+        {
+            $collection->get('X');
+        }
+        catch(Throwable $e)
+        {
+            $this->assertTrue($e instanceof ElementNotFoundException);
+        }
 
 
         // 配列アクセスのテスト
         $this->assertSame(2, $collection['C']);
 
-        $this->expectException(ElementNotFoundException::class);
-        $collection['X'];
-        $collection->offsetGet('X');
+        try
+        {
+            $collection['X'];
+        }
+        catch(Throwable $e)
+        {
+            $this->assertTrue($e instanceof ElementNotFoundException);
+        }
     }
 
 
