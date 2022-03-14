@@ -43,7 +43,7 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
      */
     public function tryGet(int|string $key, mixed $default = null) : mixed
     {
-        if(!$this->existsKey($key))
+        if(!$this->containsKey($key))
         {
             return $default;
         }
@@ -61,7 +61,7 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
      */
     public function get(int|string $key) : mixed
     {
-        if(!$this->existsKey($key))
+        if(!$this->containsKey($key))
         {
             throw new ElementNotFoundException("Key[{$key}] is not found in collection.");
         }
@@ -79,7 +79,7 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
     {
         if($key !== null)
         {
-            if($this->existsKey($key))
+            if($this->containsKey($key))
             {
                 return false;
             }
@@ -107,7 +107,7 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
     {
         if($key !== null)
         {
-            if($this->existsKey($key))
+            if($this->containsKey($key))
             {
                 throw new DuplicateElementException("Duplicate key[{$key}] in collection.");
             }
@@ -131,7 +131,7 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
      */
     public function tryUpdate(int|string $key, mixed $value) : bool
     {
-        if(!$this->existsKey($key))
+        if(!$this->containsKey($key))
         {
             return false;
         }
@@ -151,7 +151,7 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
      */
     public function update(int|string $key, mixed $value) : static
     {
-        if(!$this->existsKey($key))
+        if(!$this->containsKey($key))
         {
             throw new ElementNotFoundException("Key[{$key}] is not found in collection.");
         }
@@ -181,7 +181,7 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
      */
     public function tryRemove(int|string $key) : bool
     {
-        if(!$this->existsKey($key))
+        if(!$this->containsKey($key))
         {
             return false;
         }
@@ -201,7 +201,7 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
      */
     public function remove(int|string $key) : static
     {
-        if(!$this->existsKey($key))
+        if(!$this->containsKey($key))
         {
             throw new ElementNotFoundException("Key[{$key}] is not found in collection.");
         }
@@ -230,7 +230,7 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
     /**
      * @inheritDoc
      */
-    public function existsKey(int|string $key) : bool
+    public function containsKey(int|string $key) : bool
     {
         return key_exists($key, (array)$this->elms);
     }
@@ -241,7 +241,7 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
     /**
      * @inheritDoc
      */
-    public function existsValue(mixed $value) : bool
+    public function containsValue(mixed $value) : bool
     {
         return in_array($value, (array)$this->elms, true);
     }
@@ -341,7 +341,7 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
             throw new InvalidArgumentException('キーの型['.gettype($offset).']が不正です。');
         }
 
-        return $this->existsKey($offset);
+        return $this->containsKey($offset);
     }
 
 

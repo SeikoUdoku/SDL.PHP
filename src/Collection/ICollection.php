@@ -113,7 +113,7 @@ interface ICollection extends Countable, IteratorAggregate
      * @param int|string $key
      * @return bool
      */
-    public function existsKey(int|string $key) : bool;
+    public function containsKey(int|string $key) : bool;
 
 
     /**
@@ -122,5 +122,5 @@ interface ICollection extends Countable, IteratorAggregate
      * @param mixed $value
      * @return bool
      */
-    public function existsValue(mixed $value) : bool;
+    public function containsValue(mixed $value) : bool;
 }
