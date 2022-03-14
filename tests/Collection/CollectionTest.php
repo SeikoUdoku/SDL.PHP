@@ -190,7 +190,7 @@ final class CollectionTest extends TestCase
         // ::remove()メソッドのテスト
         $collection->remove(0);
         $this->assertCount(--$expectSize, $collection);
-        $this->assertFalse($collection->existsKey('0'));
+        $this->assertFalse($collection->containsKey('0'));
 
 
         // ::tryRemove()メソッドのテスト
@@ -198,7 +198,7 @@ final class CollectionTest extends TestCase
 
         $collection->tryRemove(1);
         $this->assertCount(--$expectSize, $collection);
-        $this->assertFalse($collection->existsKey('1'));
+        $this->assertFalse($collection->containsKey('1'));
 
 
         // 配列アクセスのテスト
@@ -207,7 +207,7 @@ final class CollectionTest extends TestCase
 
         unset($collection[2]);
         $this->assertCount(--$expectSize, $collection);
-        $this->assertFalse($collection->existsKey('2'));
+        $this->assertFalse($collection->containsKey('2'));
     }
 
 
