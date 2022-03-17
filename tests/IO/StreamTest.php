@@ -8,9 +8,9 @@ use Jp\Skud\Sdl\IO\Stream;
 use PHPUnit\Framework\TestCase;
 
 /**
- * [Jp\Skud\Sdl\IO\FileStream]の単体テストクラス
+ * [Jp\Skud\Sdl\IO\Stream]の単体テストクラス
  */
-final class FileStreamTest extends TestCase
+final class StreamTest extends TestCase
 {
     // ================================================================
     // 定数
