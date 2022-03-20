@@ -9,14 +9,14 @@ abstract class StreamBase implements IStream
     // ================================================================
     // 変数
     // ================================================================
-    /** @var string $location 操作対象リソース */
-    public readonly string $location;
+    /** @var string $location 操作対象リソースのパス */
+    protected string $location;
 
     /** @var string $operationMode 動作モード */
-    public readonly string $operationMode;
+    protected string $operationMode;
 
     /** @var resource $resource 操作対象リソース */
-    public readonly mixed $resource;
+    protected mixed $resource;
 
 
 
@@ -289,6 +289,45 @@ abstract class StreamBase implements IStream
         }
 
         return $this;
+    }
+
+
+
+
+    /**
+     * 操作対象リソースのパスを取得する。
+     *
+     * @return string
+     */
+    public function location() : string
+    {
+        return $this->location;
+    }
+
+
+
+
+    /**
+     * 動作モードのパスを取得する。
+     *
+     * @return string
+     */
+    public function operationMode() : string
+    {
+        return $this->operationMode;
+    }
+
+
+
+
+    /**
+     * 操作対象リソースを取得する。
+     *
+     * @return mixed
+     */
+    public function resource() : mixed
+    {
+        return $this->resource;
     }
 
 
