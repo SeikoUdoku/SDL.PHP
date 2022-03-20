@@ -1,5 +1,5 @@
 <?php
-namespace Jp\Skud\Sdl;
+namespace Jp\Skud\Sdl\Text;
 
 /**
  * 文字に関する操作を提供するクラス
