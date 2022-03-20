@@ -20,7 +20,7 @@ class Sdq implements Countable, IArrayable, IteratorAggregate
     // 変数
     // ================================================================
     /** @var IReadonlyCollection 操作対象のコレクション */
-    public readonly IReadonlyCollection $collection;
+    protected IReadonlyCollection $collection;
 
 
 
@@ -38,6 +38,19 @@ class Sdq implements Countable, IArrayable, IteratorAggregate
     public function __construct(IReadonlyCollection $collection)
     {
         $this->collection = $collection;
+    }
+
+
+
+
+    /**
+     * 操作対象のコレクションを取得する。
+     *
+     * @return IReadonlyCollection
+     */
+    public function collection() : IReadonlyCollection
+    {
+        return $this->collection;
     }
 
 

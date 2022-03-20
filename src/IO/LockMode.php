@@ -1,19 +1,21 @@
 <?php
 namespace Jp\Skud\Sdl\IO;
 
+use Jp\Skud\Sdl\ValueObject\IntValueObject;
+
 /**
- * ロック方法を表現するENUM
+ * ロック方法を表現するクラス
  */
-enum LockMode : int
+class LockMode extends IntValueObject
 {
     // ================================================================
-    // 列挙値
+    // 定数
     // ================================================================
     /** 共有ロック */
-    case Shared = 1;
+    public const Shared = LOCK_SH;
 
     /** 排他ロック */
-    case Exclusive = 2;
+    public const Exclusive = LOCK_EX;
 
 
 
