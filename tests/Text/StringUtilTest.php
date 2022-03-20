@@ -1,10 +1,11 @@
 <?php
-namespace Jp\Skud\SdlTest;
+namespace Jp\Skud\SdlTest\Text;
 
-use Jp\Skud\Sdl\StringUtil;
+use Jp\Skud\Sdl\Text\StringUtil;
 use PHPUnit\Framework\TestCase;
+
 /**
- * [Jp\Skud\Sdl\StringUtil]の単体テストクラス
+ * [Jp\Skud\Sdl\Text\StringUtil]の単体テストクラス
  */
 final class StringUtilTest extends TestCase
 {
