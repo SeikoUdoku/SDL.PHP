@@ -1,16 +1,18 @@
 <?php
 namespace Jp\Skud\Sdl\IO;
 
+use Jp\Skud\Sdl\ValueObject\IntValueObject;
+
 /**
- * ロック方法のオプション値を表現するENUM
+ * ロック方法のオプション値を表現するクラス
  */
-enum LockModeModification : int
+class LockModeModification extends IntValueObject
 {
     // ================================================================
     // 列挙値
     // ================================================================
-    /** 同時ロックの取得禁止 */
-    case NotBlock = 4;
+    /** 非ブロックモード */
+    public const NotBlock = LOCK_NB;
 
 
 

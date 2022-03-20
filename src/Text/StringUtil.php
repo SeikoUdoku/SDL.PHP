@@ -1,5 +1,5 @@
 <?php
-namespace Jp\Skud\Sdl;
+namespace Jp\Skud\Sdl\Text;
 
 use DomainException;
 use OutOfRangeException;

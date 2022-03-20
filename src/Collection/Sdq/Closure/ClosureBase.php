@@ -12,8 +12,8 @@ abstract class ClosureBase
     // ================================================================
     // 変数
     // ================================================================
-    /** @var Closure 関数 */
-    public readonly Closure $function;
+    /** @var Closure $function 関数 */
+    protected Closure $function;
 
 
 
@@ -42,14 +42,18 @@ abstract class ClosureBase
     /**
      * コンストラクタ
      *
-     * @param callable $selector
+     * @param Closure $function
+     *
+     * @throws NotSupportedException
      */
-    public function __construct(callable $selector)
+    public function __construct(Closure $function)
     {
-        if(!static::isValidFunction($selector))
+        if(!static::isValidFunction($function))
         {
             throw new NotSupportedException('不正な仕様の選択関数です。');
         }
+
+        $this->function = $function;
     }
 
 
