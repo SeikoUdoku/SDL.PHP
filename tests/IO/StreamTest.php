@@ -21,6 +21,8 @@ final class StreamTest extends TestCase
 
 
 
+
+
     // ================================================================
     // 正常系のテスト
     // ================================================================
@@ -37,21 +39,21 @@ final class StreamTest extends TestCase
 
 
         // 共有ロックのテスト
-        $stream->lock(LockMode::Shared);
+        $stream->lock(LockMode::from(LockMode::Shared));
 
         $tStream = Stream::open($location, 'r');
-        $tStream->lock(LockMode::Shared);
+        $tStream->lock(LockMode::from(LockMode::Shared));
         unset($tStream);
 
 
 
         // 排他ロックのテスト
-        $stream->lock(LockMode::Exclusive);;
+        $stream->lock(LockMode::from(LockMode::Exclusive));
         $tStream = Stream::open($location, 'r');
         $isExpected = false;
         try
         {
-            $tStream->lock(LockMode::Shared, [LockModeModification::NotBlock]);
+            $tStream->lock(LockMode::from(LockMode::Shared), [LockModeModification::from(LockModeModification::NotBlock)]);
         }
         catch(IOException $e)
         {
@@ -88,7 +90,7 @@ final class StreamTest extends TestCase
         $contentBytes = strlen(static::class);
         $writtenBytes = 0;
 
-        $stream->lock(LockMode::Exclusive);
+        $stream->lock(LockMode::from(LockMode::Exclusive));
 
         $stream->write($content, null, $writtenBytes);
         $stream->flush();
