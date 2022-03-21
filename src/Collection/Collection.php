@@ -2,6 +2,7 @@
 namespace Jp\Skud\Sdl\Collection;
 
 use ArrayAccess;
+use ArrayIterator;
 use InvalidArgumentException;
 use Jp\Skud\Sdl\NotSupportedException;
 use Traversable;
@@ -270,7 +271,7 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
      */
     public function getIterator(): Traversable
     {
-        return new Traversable($this->elms);
+        return new ArrayIterator($this->elms);
     }
 
 
