@@ -1,5 +1,5 @@
 {
-    "name": "SDL.PHP"
+    "name": "seiko-udoku/sdl.php"
   , "description": "Smart developing library for PHP."
   , "version": "1.0.0-dev"
   , "type": "library"
