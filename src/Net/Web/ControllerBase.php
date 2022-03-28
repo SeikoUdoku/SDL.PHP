@@ -194,9 +194,9 @@ abstract class ControllerBase
     /**
      * パラメタのコレクションを取得する。
      *
-     * @return IReadonlyCollection
+     * @return Collection
      */
-    public function parameters() : IReadonlyCollection
+    public function parameters() : Collection
     {
         return $this->parameters;
     }
