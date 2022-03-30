@@ -47,6 +47,17 @@ class LocalDirectory implements IDirectory
     /**
      * @inheritDoc
      */
+    public function getLocation() : string
+    {
+        return $this->location;
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+     */
     public function hasItem(string $location) : bool
     {
         $fixedLoc = $this->createFixedPath($location);
@@ -398,7 +409,7 @@ class LocalDirectory implements IDirectory
      */
     public function createFixedPath(string $relativeLocation) : string
     {
-        $location = $this->location.DIRECTORY_SEPARATOR;
+        $location = $this->getLocation().DIRECTORY_SEPARATOR;
         $location .= StringUtil::trimStart($relativeLocation, ['/', '\\', DIRECTORY_SEPARATOR]);
 
         return $location;

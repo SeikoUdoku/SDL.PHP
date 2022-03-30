@@ -12,6 +12,14 @@ interface IDirectory
     // 抽象関数
     // ================================================================
     /**
+     * ディレクトリの場所を取得する。
+     *
+     * @return string
+     */
+    public function getLocation() : string;
+
+
+    /**
      * ディレクトリまたは、ファイルが存在するか判定する。
      *
      * @param string $location

@@ -37,7 +37,7 @@ class HttpResponse
      */
     public function __construct()
     {
-        $this->httpStatusCode = HttpStatusCode::OK;
+        $this->httpStatusCode = HttpStatusCode::from(HttpStatusCode::OK);
         $this->headers = new HttpHeaders();
         $this->mimeType = null;
     }
@@ -49,7 +49,7 @@ class HttpResponse
      *
      * @return HttpStatusCode
      */
-    public function getHttpStatusCode(): HttpStatusCode
+    public function httpStatusCode(): HttpStatusCode
     {
         return $this->httpStatusCode;
     }
@@ -95,7 +95,7 @@ class HttpResponse
      *
      * @return MimeType|null
      */
-    public function getMimeType(): ?MimeType
+    public function mimeType(): ?MimeType
     {
         return $this->mimeType;
     }

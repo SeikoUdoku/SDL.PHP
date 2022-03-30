@@ -15,7 +15,7 @@ class MimeType
     // 定数
     // ================================================================
     /** MIME-Type: Html */
-    public const HTML = 'text/plain';
+    public const HTML = 'text/html';
 
     /** MIME-Type: Xml */
     public const XML = self::XML_READABLE;

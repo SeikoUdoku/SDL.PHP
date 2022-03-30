@@ -11,7 +11,7 @@ use Jp\Skud\Sdl\Text\StringUtil;
 /**
  * Http要求データを基に処理コントローラへの振向処理を行うクラス
  */
-class Router implements IRouter
+class Router
 {
     // ================================================================
     // 変数

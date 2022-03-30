@@ -392,9 +392,9 @@ class Uri implements Stringable
             $uri .= $this->path;
         }
 
-        if($this->queries->count() > 0)
+        if($this->uriQueries->count() > 0)
         {
-            $uri .= '?'.$this->queries->toString();
+            $uri .= '?'.$this->uriQueries->toString();
         }
 
         if(!StringUtil::isEmpty($this->fragment))
