@@ -7,7 +7,7 @@ use Jp\Skud\Sdl\Collection\Collection;
 use Jp\Skud\Sdl\Text\StringUtil;
 
 /**
- * IO処理に関するエラーが発生した場合の例外クラス。
+ * MIME-Typeを表現するクラス
  */
 class MimeType
 {
@@ -113,45 +113,53 @@ class MimeType
      * @throws DomainException
      * @throws Exception
      */
-    public function __construct(string $mimeType)
+    public function __construct(string $mimeType = '')
     {
-        // 全体様式チェック
-        static::validate($mimeType);
-
-
-        // 解析
-        $matches = [];
-        $matched =  preg_match(static::PREG_PATTERN, $mimeType, $matches);
-
-        if($matched === 0)
-        {
-            return false;
-        }
-        elseif($matched === false)
-        {
-            throw new Exception("MIME-Type[{$mimeType}]の検証に失敗しました。");
-        }
-
-        $topLevelType = StringUtil::trim($matches[1]);
-        $subType = StringUtil::trim($matches[2]);
-        $parametersStr = isset($matches[3]) ? StringUtil::trim($matches[3]) : '';
-
+        // 変数初期化
+        $topLevelType = '';
+        $subType = '';
         $parameters = new Collection();
-        if(!StringUtil::isEmpty($parametersStr))
-        {
-            foreach(explode(';', $parametersStr) as $p)
-            {
-                $pkv = explode('=', $p);
-                if(count($pkv) < 2)
-                {
-                    continue;
-                }
 
-                $pk = StringUtil::trim((string)$pkv[0]);
-                $pv = StringUtil::trim((string)$pkv[1]);
-                if(!StringUtil::isEmpty($pk) && !StringUtil::isEmpty($pv))
+
+        // MIME-Type文字列解析
+        if(!StringUtil::isEmpty($mimeType))
+        {
+            // 全体様式チェック
+            static::validate($mimeType);
+
+            // 解析
+            $matches = [];
+            $matched =  preg_match(static::PREG_PATTERN, $mimeType, $matches);
+
+            if($matched === 0)
+            {
+                throw new DomainException("MIME-Type[{$mimeType}]の形式が不正です。");
+            }
+            elseif($matched === false)
+            {
+                throw new Exception("MIME-Type[{$mimeType}]の検証に失敗しました。");
+            }
+
+            $topLevelType = StringUtil::trim($matches[1]);
+            $subType = StringUtil::trim($matches[2]);
+            $parametersStr = isset($matches[3]) ? StringUtil::trim($matches[3]) : '';
+
+            if(!StringUtil::isEmpty($parametersStr))
+            {
+                foreach(explode(';', $parametersStr) as $p)
                 {
-                    $parameters->setElement($pk, $pv);
+                    $pkv = explode('=', $p);
+                    if(count($pkv) < 2)
+                    {
+                        continue;
+                    }
+
+                    $pk = StringUtil::trim((string)$pkv[0]);
+                    $pv = StringUtil::trim((string)$pkv[1]);
+                    if(!StringUtil::isEmpty($pk) && !StringUtil::isEmpty($pv))
+                    {
+                        $parameters->setElement($pk, $pv);
+                    }
                 }
             }
         }
