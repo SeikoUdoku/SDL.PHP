@@ -2,19 +2,20 @@
 namespace Jp\Skud\Sdl\Net;
 
 use ArrayAccess;
-use Jp\Skud\Sdl\Collection\Collection;
-use Jp\Skud\Sdl\DateTime;
 use Countable;
 use IteratorAggregate;
+use Jp\Skud\Sdl\Collection\Collection;
+use Jp\Skud\Sdl\Collection\IArrayable;
 use Jp\Skud\Sdl\Collection\IReadonlyCollection;
+use Jp\Skud\Sdl\DateTime;
 use Jp\Skud\Sdl\Text\StringUtil;
 use Stringable;
 use Traversable;
 
 /**
- * クエリパラメタの集合を取扱うクラス。
+ * クエリパラメタの集合を取扱うクラス
  */
-class UriQueries implements ArrayAccess, Countable, IteratorAggregate, Stringable
+class UriQueries implements ArrayAccess, Countable, IArrayable, IteratorAggregate, Stringable
 {
     // ================================================================
     // 変数
@@ -55,6 +56,19 @@ class UriQueries implements ArrayAccess, Countable, IteratorAggregate, Stringabl
 
 
     /**
+     * クエリパラメタの集合を取得する。
+     *
+     * @return IReadonlyCollection
+     */
+    public function queries() : IReadonlyCollection
+    {
+        return $this->queries;
+    }
+
+
+
+
+    /**
      * クエリパラメタが存在するか判定する。
      *
      * @param string $key
@@ -71,10 +85,10 @@ class UriQueries implements ArrayAccess, Countable, IteratorAggregate, Stringabl
     /**
      * クエリパラメタに値が存在するか判定する。
      *
-     * @param string|array $value
+     * @param mixed $value
      * @return bool
      */
-    public function containsValue(string|array $value) : bool
+    public function containsValue(mixed $value) : bool
     {
         return $this->queries->containsValue($value);
     }
@@ -83,13 +97,14 @@ class UriQueries implements ArrayAccess, Countable, IteratorAggregate, Stringabl
 
 
     /**
-     * クエリパラメタの集合を取得する。
+     * クエリパラメタを全て削除する。
      *
-     * @return IReadonlyCollection
+     * @return static
      */
-    public function queries() : IReadonlyCollection
+    public function clear() : static
     {
-        return $this->queries;
+        $this->queries->clear();
+        return $this;
     }
 
 
@@ -99,9 +114,9 @@ class UriQueries implements ArrayAccess, Countable, IteratorAggregate, Stringabl
      * 指定したクエリパラメタを取得する。
      *
      * @param string $key
-     * @return string|array
+     * @return mixed
      */
-    public function get(string $key) : string|array
+    public function get(string $key) : mixed
     {
         return $this->queries->get($key);
     }
@@ -116,7 +131,7 @@ class UriQueries implements ArrayAccess, Countable, IteratorAggregate, Stringabl
      * @param mixed $default
      * @return mixed
      */
-    public function tryGet(string $key, mixed $default = null) : string|array|null
+    public function tryGet(string $key, mixed $default = null) : mixed
     {
         return $this->queries->tryGet($key, $default);
     }
@@ -230,12 +245,12 @@ class UriQueries implements ArrayAccess, Countable, IteratorAggregate, Stringabl
      * クエリパラメタを追加する。
      *
      * @param string $key
-     * @param mixed $value
-     * @return self
+     * @param string|array $value
+     * @return static
      */
-    public function add(string $key, mixed $value) : self
+    public function add(string $key, string|array $value) : static
     {
-        $this->queries->add((string)$value, $key);
+        $this->queries->add($value, $key);
         return $this;
     }
 
@@ -247,7 +262,7 @@ class UriQueries implements ArrayAccess, Countable, IteratorAggregate, Stringabl
      *
      * @param string $key
      * @param mixed $value
-     * @return self
+     * @return bool
      */
     public function tryAdd(string $key, mixed $value) : bool
     {
@@ -258,13 +273,44 @@ class UriQueries implements ArrayAccess, Countable, IteratorAggregate, Stringabl
 
 
     /**
+     * クエリパラメタを更新する。
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return static
+     */
+    public function update(string $key, mixed $value) : static
+    {
+        $this->queries->update($key, $value);
+        return $this;
+    }
+
+
+
+
+    /**
+     * クエリパラメタを更新する。
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return bool
+     */
+    public function tryUpdate(string $key, mixed $value) : bool
+    {
+        return $this->queries->tryUpdate($key, $value);
+    }
+
+
+
+
+    /**
      * クエリパラメタを設定する。
      *
      * @param string $key
      * @param mixed $value
-     * @return self
+     * @return static
      */
-    public function set(string $key, mixed $value) : self
+    public function setElement(string $key, mixed $value) : static
     {
         $this->queries->setElement($key, (string)$value);
         return $this;
@@ -277,9 +323,9 @@ class UriQueries implements ArrayAccess, Countable, IteratorAggregate, Stringabl
      * クエリパラメタを削除する。
      *
      * @param string $key
-     * @return self
+     * @return static
      */
-    public function remove(string $key) : self
+    public function remove(string $key) : static
     {
         $this->queries->remove($key);
         return $this;
@@ -303,19 +349,6 @@ class UriQueries implements ArrayAccess, Countable, IteratorAggregate, Stringabl
 
 
     /**
-     * パラメタの集合を配列に変換する。
-     *
-     * @return string[]
-     */
-    public function toArray() : array
-    {
-        return $this->queries->toArray();
-    }
-
-
-
-
-    /**
      * パラメタの集合をクエリストリングに変換する。
      * ※先頭に"?"は付与されない。
      *
@@ -324,6 +357,17 @@ class UriQueries implements ArrayAccess, Countable, IteratorAggregate, Stringabl
     public function toString() : string
     {
         return http_build_query($this->toArray());
+    }
+
+
+
+
+    /**
+     * @inheritdoc
+     */
+    public function toArray() : array
+    {
+        return $this->queries->toArray();
     }
 
 
@@ -415,12 +459,12 @@ class UriQueries implements ArrayAccess, Countable, IteratorAggregate, Stringabl
      * クエリ文字列を解析する。
      *
      * @param string $queryString
-     * @return self
+     * @return static
      */
-    public static function parseQueryString(string $queryString) : self
+    public static function parseQueryString(string $queryString) : static
     {
         $queries = [];
         parse_str($queryString, $queries);
-        return new self($queries);
+        return new static($queries);
     }
 }
