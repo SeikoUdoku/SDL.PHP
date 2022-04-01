@@ -54,7 +54,7 @@ class Uri implements Stringable
      */
     public function __construct(string $uri = '')
     {
-        if(!StringUtil::isWhiteSpace($uri))
+        if(!StringUtil::isEmpty($uri))
         {
             $uriParts = parse_url($uri);
 
