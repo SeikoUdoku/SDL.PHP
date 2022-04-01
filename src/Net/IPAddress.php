@@ -46,7 +46,7 @@ class IPAddress implements Stringable
      */
     public function __construct(string $ipAddr)
     {
-        if(!self::validate($ipAddr))
+        if(!static::validate($ipAddr))
         {
             throw new DomainException("IPアドレス[{$ipAddr}]の様式が不正です。");
         }
