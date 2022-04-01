@@ -123,4 +123,20 @@ interface ICollection extends Countable, IteratorAggregate
      * @return bool
      */
     public function containsValue(mixed $value) : bool;
+
+
+    /**
+     * キーのコレクションを取得する。
+     *
+     * @return static
+     */
+    public function keys() : static;
+
+
+    /**
+     * 要素のコレクションを取得する。
+     *
+     * @return static
+     */
+    public function values() : static;
 }

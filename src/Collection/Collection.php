@@ -253,6 +253,28 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
     /**
      * @inheritDoc
      */
+    public function keys() : static
+    {
+        return static::from(array_keys((array)$this->elms));
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function values() : static
+    {
+        return static::from(array_values((array)$this->elms));
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+     */
     public function count() : int
     {
         if(!is_countable($this->elms))
@@ -367,32 +389,6 @@ class Collection implements ArrayAccess, IArrayable, ICollection, IReadonlyColle
     public function getReadonlyCollection() : IReadonlyCollection
     {
         return $this;
-    }
-
-
-
-
-    /**
-     * キーのコレクションを取得する。
-     *
-     * @return static
-     */
-    public function keys() : static
-    {
-        return static::from(array_keys((array)$this->elms));
-    }
-
-
-
-
-    /**
-     * 要素のコレクションを取得する。
-     *
-     * @return static
-     */
-    public function values() : static
-    {
-        return static::from(array_values((array)$this->elms));
     }
 
 
