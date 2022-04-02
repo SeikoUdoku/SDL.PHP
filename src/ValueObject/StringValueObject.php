@@ -46,19 +46,6 @@ class StringValueObject implements Stringable
      *
      * @return string
      */
-    public function value() : string
-    {
-        return $this->getValue();
-    }
-
-
-
-
-    /**
-     * 値を取得する。
-     *
-     * @return string
-     */
     public function getValue() : string
     {
         return $this->value;

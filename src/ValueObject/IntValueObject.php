@@ -48,19 +48,6 @@ class IntValueObject implements Stringable
      *
      * @return int
      */
-    public function value() : int
-    {
-        return $this->getValue();
-    }
-
-
-
-
-    /**
-     * 値を取得する。
-     *
-     * @return int
-     */
     public function getValue() : int
     {
         return $this->value;
