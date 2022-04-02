@@ -3,15 +3,18 @@ namespace Jp\Skud\Sdl\Net\Http;
 
 use ArrayAccess;
 use Countable;
+use DomainException;
 use InvalidArgumentException;
 use IteratorAggregate;
 use Jp\Skud\Sdl\Collection\Collection;
+use Jp\Skud\Sdl\Collection\IArrayable;
+use Jp\Skud\Sdl\Text\StringUtil;
 use Traversable;
 
 /**
  * アップロードされたファイルの集合を表現するクラス
  */
-class UploadFiles implements ArrayAccess, Countable, IteratorAggregate
+class UploadFiles implements ArrayAccess, Countable, IArrayable, IteratorAggregate
 {
     // ================================================================
     // 変数
@@ -113,9 +116,16 @@ class UploadFiles implements ArrayAccess, Countable, IteratorAggregate
      * @param string $key
      * @param UploadFile $value
      * @return static
+     *
+     * @throws DomainException
      */
-    public function set(string $key, UploadFile $value) : static
+    public function setElement(string $key, UploadFile $value) : static
     {
+        if(StringUtil::isEmpty($key))
+        {
+            throw new DomainException('キーを空文字とすることはできません。');
+        }
+
         $this->files->setElement($key, $value);
         return $this;
     }
@@ -129,9 +139,16 @@ class UploadFiles implements ArrayAccess, Countable, IteratorAggregate
      * @param string $key
      * @param UploadFile $value
      * @return static
+     *
+     * @throws DomainException
      */
     public function add(string $key, UploadFile $value) : static
     {
+        if(StringUtil::isEmpty($key))
+        {
+            throw new DomainException('キーを空文字とすることはできません。');
+        }
+
         $this->files->add($value, $key);
         return $this;
     }
@@ -145,9 +162,16 @@ class UploadFiles implements ArrayAccess, Countable, IteratorAggregate
      * @param string $key
      * @param UploadFile $value
      * @return static
+     *
+     * @throws DomainException
      */
     public function tryAdd(string $key, UploadFile $value) : static
     {
+        if(StringUtil::isEmpty($key))
+        {
+            throw new DomainException('キーを空文字とすることはできません。');
+        }
+
         $this->files->tryAdd($value, $key);
         return $this;
     }
@@ -161,9 +185,16 @@ class UploadFiles implements ArrayAccess, Countable, IteratorAggregate
      * @param string $key
      * @param UploadFile $value
      * @return static
+     *
+     * @throws DomainException
      */
     public function update(string $key, UploadFile $value) : static
     {
+        if(StringUtil::isEmpty($key))
+        {
+            throw new DomainException('キーを空文字とすることはできません。');
+        }
+
         $this->files->update($key, $value);
         return $this;
     }
@@ -177,9 +208,16 @@ class UploadFiles implements ArrayAccess, Countable, IteratorAggregate
      * @param string $key
      * @param UploadFile $value
      * @return static
+     *
+     * @throws DomainException
      */
     public function tryUpdate(string $key, UploadFile $value) : static
     {
+        if(StringUtil::isEmpty($key))
+        {
+            throw new DomainException('キーを空文字とすることはできません。');
+        }
+
         $this->files->tryUpdate($key, $value);
         return $this;
     }
@@ -220,12 +258,23 @@ class UploadFiles implements ArrayAccess, Countable, IteratorAggregate
     /**
      * ファイルをすべて削除する。
      *
-     * @return self
+     * @return static
      */
-    public function erase() : static
+    public function clear() : static
     {
         $this->files->clear();
         return $this;
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray() : array
+    {
+        return $this->files->toArray();
     }
 
 
