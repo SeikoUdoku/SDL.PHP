@@ -1,6 +1,7 @@
 <?php
 namespace Jp\Skud\Sdl\IO\FileSystem\Local;
 
+use DomainException;
 use finfo;
 use Jp\Skud\Sdl\IO\FileSystem\DuplicateDirectoryException;
 use Jp\Skud\Sdl\IO\FileSystem\DuplicateFileException;
@@ -9,6 +10,7 @@ use Jp\Skud\Sdl\IO\FileSystem\IFile;
 use Jp\Skud\Sdl\IO\IOException;
 use Jp\Skud\Sdl\IO\MimeType;
 use Jp\Skud\Sdl\IO\Stream;
+use Jp\Skud\Sdl\Text\StringUtil;
 
 /**
  * ローカルストレージのファイルに関する機能を提供するクラス
@@ -36,9 +38,16 @@ class LocalFile implements IFile
      * コンストラクタ
      *
      * @param string $location
+     *
+     * @throws DomainException
      */
     public function __construct(string $location, string $streamMode = 'r+')
     {
+        if(StringUtil::isEmpty($location))
+        {
+            throw new DomainException('ファイルパスが空文字列です。');
+        }
+
         $this->location = $location;
         $this->stream = new Stream($location, $streamMode);
     }
@@ -164,13 +173,17 @@ class LocalFile implements IFile
     // 静的関数
     // ================================================================
     /**
-     * ファイルが存在するか判定する。
+     * @inheritDoc
      *
-     * @param string $location
-     * @return bool
+     * @throws DomainException
      */
     public static function exists(string $location) : bool
     {
+        if(StringUtil::isEmpty($location))
+        {
+            throw new DomainException('ファイルパスが空文字列です。');
+        }
+
         return (file_exists($location) && is_file($location));
     }
 
