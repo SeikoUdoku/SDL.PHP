@@ -1,6 +1,7 @@
 <?php
 namespace Jp\Skud\Sdl\IO\FileSystem\Local;
 
+use DomainException;
 use Jp\Skud\Sdl\Collection\Collection;
 use Jp\Skud\Sdl\Collection\IReadonlyCollection;
 use Jp\Skud\Sdl\IO\FileSystem\DirectoryNotFoundException;
@@ -35,9 +36,16 @@ class LocalDirectory implements IDirectory
      * コンストラクタ
      *
      * @param string $location
+     *
+     * @throws DomainException
      */
     public function __construct(string $location)
     {
+        if(StringUtil::isEmpty($location))
+        {
+            throw new DomainException('ディレクトリパスが空文字列です。');
+        }
+
         $this->location = StringUtil::trimEnd($location, ['/', '\\', DIRECTORY_SEPARATOR]);
     }
 
@@ -72,10 +80,16 @@ class LocalDirectory implements IDirectory
      *
      * @param string $pattern
      *
+     * @throws DomainException
      * @throws IOException
      */
     public function getItems(string $pattern = '/*') : IReadonlyCollection
     {
+        if(StringUtil::isEmpty($pattern))
+        {
+            throw new DomainException('検索パターンが空文字列です。');
+        }
+
         $items = new Collection();
         $itemNames = glob($this->createFixedPath($pattern));
 
@@ -118,10 +132,16 @@ class LocalDirectory implements IDirectory
      *
      * @param string $pattern
      *
+     * @throws DomainException
      * @throws IOException
      */
     public function getDirectories($pattern = '/*') : IReadonlyCollection
     {
+        if(StringUtil::isEmpty($pattern))
+        {
+            throw new DomainException('検索パターンが空文字列です。');
+        }
+
         $directories = new Collection();
         $directoryNames = glob($this->createFixedPath($pattern), GLOB_ONLYDIR);
 
@@ -194,10 +214,15 @@ class LocalDirectory implements IDirectory
      * @param string $pattern
      * @param string $streamMode
      *
+     * @throws DomainException
      * @throws IOException
      */
     public function getFiles(string $pattern = '/*', string $streamMode = 'r+') : IReadonlyCollection
     {
+        if(StringUtil::isEmpty($pattern))
+        {
+            throw new DomainException('検索パターンが空文字列です。');
+        }
 
         $files = new Collection();
         $fileNames = glob($this->createFixedPath($pattern));
@@ -266,11 +291,22 @@ class LocalDirectory implements IDirectory
     /**
      * @inheritDoc
      *
+     * @throws DomainException
      * @throws DuplicateItemException
      * @throws ItemNotFoundException
      */
     public function rename(string $before, string $after) : static
     {
+        if(StringUtil::isEmpty($before))
+        {
+            throw new DomainException('変更前パスが空文字列です。');
+        }
+
+        if(StringUtil::isEmpty($after))
+        {
+            throw new DomainException('変更後パスが空文字列です。');
+        }
+
         // 変数初期化
         $beforeFixLoc = $this->createFixedPath($before);
         $afterFixLoc = $this->createFixedPath($after);
@@ -304,11 +340,22 @@ class LocalDirectory implements IDirectory
     /**
      * @inheritDoc
      *
+     * @throws DomainException
      * @throws DuplicateItemException
      * @throws ItemNotFoundException
      */
     public function copy(string $from, string $to) : static
     {
+        if(StringUtil::isEmpty($from))
+        {
+            throw new DomainException('コピー元パスが空文字列です。');
+        }
+
+        if(StringUtil::isEmpty($to))
+        {
+            throw new DomainException('コピー先パスが空文字列です。');
+        }
+
         // 変数初期化
         $fromFixLoc = $this->createFixedPath($from);
         $toFixLoc = $this->createFixedPath($to);
@@ -341,10 +388,16 @@ class LocalDirectory implements IDirectory
     /**
      * @inheritDoc
      *
+     * @throws DomainException
      * @throws ItemNotFoundException
      */
     public function delete(string $location) : static
     {
+        if(StringUtil::isEmpty($location))
+        {
+            throw new DomainException('パスが空文字列です。');
+        }
+
         // 変数初期化
         $fixLoc = $this->createFixedPath($location);
 
@@ -425,9 +478,16 @@ class LocalDirectory implements IDirectory
     // ================================================================
     /**
      * @inheritDoc
+     *
+     * @throws DomainException
      */
     public static function exists(string $location) : bool
     {
+        if(StringUtil::isEmpty($location))
+        {
+            throw new DomainException('ディレクトリパスが空文字列です。');
+        }
+
         return (file_exists($location) && is_dir($location));
     }
 
