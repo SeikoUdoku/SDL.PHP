@@ -5,6 +5,8 @@ use ArrayAccess;
 use Countable;
 use IteratorAggregate;
 use Jp\Skud\Sdl\Collection\Collection;
+use Jp\Skud\Sdl\Collection\IArrayable;
+use Jp\Skud\Sdl\Collection\IReadonlyCollection;
 use Jp\Skud\Sdl\DateTime;
 use Jp\Skud\Sdl\Text\StringUtil;
 use Traversable;
@@ -12,7 +14,7 @@ use Traversable;
 /**
  * Httpヘダーを表現するクラス
  */
-class HttpHeaders implements ArrayAccess, Countable, IteratorAggregate
+class HttpHeaders implements ArrayAccess, Countable, IArrayable, IteratorAggregate
 {
     // ================================================================
     // 変数
@@ -36,6 +38,19 @@ class HttpHeaders implements ArrayAccess, Countable, IteratorAggregate
     public function __construct(iterable $headers = [])
     {
         $this->headers = new Collection($headers);
+    }
+
+
+
+
+    /**
+     * ヘダーの集合を取得する。
+     *
+     * @return IReadonlyCollection
+     */
+    public function headers() : IReadonlyCollection
+    {
+        return $this->headers;
     }
 
 
@@ -69,15 +84,15 @@ class HttpHeaders implements ArrayAccess, Countable, IteratorAggregate
 
 
 
-
     /**
-     * 全てのヘダーを取得する。
+     * ヘダー値を全て削除する。
      *
-     * @return Collection
+     * @return static
      */
-    public function getHeaders() : Collection
+    public function clear() : static
     {
-        return clone $this->headers;
+        $this->headers->clear();
+        return $this;
     }
 
 
@@ -102,11 +117,11 @@ class HttpHeaders implements ArrayAccess, Countable, IteratorAggregate
      *
      * @param string $key
      * @param mixed $default
-     * @return string
+     * @return mixed
      */
-    public function tryGet(string $key, mixed $default = null) : string
+    public function tryGet(string $key, mixed $default = null) : mixed
     {
-        return (string)$this->headers->tryGet($key, $default);
+        return $this->headers->tryGet($key, $default);
     }
 
 
@@ -121,7 +136,7 @@ class HttpHeaders implements ArrayAccess, Countable, IteratorAggregate
      */
     public function getAsString(string $key, string $default = '') : string
     {
-        return $this->tryGet($key, $default);
+        return (string)$this->tryGet($key, $default);
     }
 
 
@@ -167,21 +182,6 @@ class HttpHeaders implements ArrayAccess, Countable, IteratorAggregate
     public function getAsBool(string $key, bool $default = false) : bool
     {
         return (bool)$this->tryGet($key, $default);
-    }
-
-
-
-
-    /**
-     * 任意のヘダー値を配列として取得する。
-     *
-     * @param string $key
-     * @param array $default
-     * @return array
-     */
-    public function getAsArray(string $key, array $default = []) : array
-    {
-        return (array)$this->tryGet($key, $default);
     }
 
 
@@ -246,13 +246,44 @@ class HttpHeaders implements ArrayAccess, Countable, IteratorAggregate
 
 
     /**
+     * ヘダーを更新する。
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return static
+     */
+    public function update(string $key, mixed $value) : static
+    {
+        $this->headers->update($key, $value);
+        return $this;
+    }
+
+
+
+
+    /**
+     * ヘダーを更新する。
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return bool
+     */
+    public function tryUpdate(string $key, mixed $value) : bool
+    {
+        return $this->headers->tryUpdate($key, $value);
+    }
+
+
+
+
+    /**
      * ヘダーを設定する。
      *
      * @param string $key
      * @param string $value
      * @return static
      */
-    public function set(string $key, string $value) : static
+    public function setElement(string $key, string $value) : static
     {
         $this->headers->setElement($key, $value);
         return $this;
@@ -285,19 +316,6 @@ class HttpHeaders implements ArrayAccess, Countable, IteratorAggregate
     public function tryRemove(string $key) : bool
     {
         return $this->headers->tryRemove($key);
-    }
-
-
-
-
-    /**
-     * ヘダーの集合を配列に変換する。
-     *
-     * @return string[]
-     */
-    public function toArray() : array
-    {
-        return $this->headers->toArray();
     }
 
 
@@ -364,5 +382,16 @@ class HttpHeaders implements ArrayAccess, Countable, IteratorAggregate
     public function getIterator(): Traversable
     {
         return $this->headers->getIterator();
+    }
+
+
+
+
+    /**
+     * @inheritdoc
+     */
+    public function toArray() : array
+    {
+        return $this->headers->toArray();
     }
 }
