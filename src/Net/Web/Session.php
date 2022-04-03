@@ -5,6 +5,7 @@ use ArrayAccess;
 use Countable;
 use IteratorAggregate;
 use Jp\Skud\Sdl\Collection\Collection;
+use Jp\Skud\Sdl\Collection\IArrayable;
 use Jp\Skud\Sdl\DateTime;
 use Jp\Skud\Sdl\Text\StringUtil;
 use Traversable;
@@ -12,7 +13,7 @@ use Traversable;
 /**
  * セッションを表現するクラス
  */
-class Session implements ArrayAccess, Countable, IteratorAggregate
+class Session implements ArrayAccess, Countable, IArrayable, IteratorAggregate
 {
     // ================================================================
     // 変数
@@ -212,7 +213,7 @@ class Session implements ArrayAccess, Countable, IteratorAggregate
      * @param mixed $value
      * @return static
      */
-    public function set(string $key, mixed $value) : static
+    public function setElement(string $key, mixed $value) : static
     {
         $this->session->setElement($key, $value);
         return $this;
@@ -263,6 +264,21 @@ class Session implements ArrayAccess, Countable, IteratorAggregate
     {
         $this->session->update($key, $value);
         return $this;
+    }
+
+
+
+
+    /**
+     * セッション値を設定する。
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return bool
+     */
+    public function tryUpdate(string $key, mixed $value) : bool
+    {
+        return $this->session->tryUpdate($key, $value);
     }
 
 
@@ -340,19 +356,6 @@ class Session implements ArrayAccess, Countable, IteratorAggregate
 
 
     /**
-     * セッションを連想配列形式で取得する。
-     *
-     * @return array
-     */
-    public function toArray() : array
-    {
-        return $this->session->toArray();
-    }
-
-
-
-
-    /**
      * 現在の接続で有効なセッションに保存して永続化する。
      *
      * @throws WebComponentException
@@ -365,6 +368,17 @@ class Session implements ArrayAccess, Countable, IteratorAggregate
         }
 
         $_SESSION = (array)$this->session->getIterator();
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray() : array
+    {
+        return $this->session->toArray();
     }
 
 
