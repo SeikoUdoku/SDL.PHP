@@ -2,7 +2,6 @@
 namespace Jp\Skud\Sdl\Net\Web;
 
 use Jp\Skud\Sdl\Collection\Collection;
-use Jp\Skud\Sdl\Collection\IReadonlyCollection;
 use Jp\Skud\Sdl\Net\Http\HttpRequest;
 use Jp\Skud\Sdl\Net\Http\HttpResponse;
 
