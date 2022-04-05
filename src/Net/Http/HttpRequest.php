@@ -154,9 +154,9 @@ class HttpRequest
      * IPアドレスを設定する。
      *
      * @param IPAddress $ipAddr
-     * @return self
+     * @return static
      */
-    public function setIpAddr(IPAddress $ipAddr): self
+    public function setIpAddr(IPAddress $ipAddr): static
     {
         $this->ipAddr = $ipAddr;
         return $this;
@@ -182,9 +182,9 @@ class HttpRequest
      * 要求URIを設定する。
      *
      * @param Uri $uri
-     * @return self
+     * @return static
      */
-    public function setUri(Uri $uri): self
+    public function setUri(Uri $uri): static
     {
         $this->uri = $uri;
         return $this;
@@ -192,6 +192,12 @@ class HttpRequest
 
 
 
+
+    /**
+     * 要求URIに含まれるクエリパラメタの集合を取得する。
+     *
+     * @return UriQueries
+     */
     public function uriQueries() : UriQueries
     {
         return $this->uri->uriQueries();
@@ -217,9 +223,9 @@ class HttpRequest
      * Httpメソッドを設定する。
      *
      * @param HttpMethod $httpMethod
-     * @return self
+     * @return static
      */
-    public function setHttpMethod(HttpMethod $httpMethod): self
+    public function setHttpMethod(HttpMethod $httpMethod): static
     {
         $this->httpMethod = $httpMethod;
         return $this;
@@ -245,9 +251,9 @@ class HttpRequest
      * 要求日時を設定する。
      *
      * @param DateTime $requestedAt
-     * @return self
+     * @return static
      */
-    public function setRequestedAt(DateTime $requestedAt): self
+    public function setRequestedAt(DateTime $requestedAt): static
     {
         $this->requestedAt = $requestedAt;
         return $this;
@@ -273,9 +279,9 @@ class HttpRequest
      * セッションを設定する。
      *
      * @param Session $session
-     * @return self
+     * @return static
      */
-    public function setSession(Session $session): self
+    public function setSession(Session $session): static
     {
         $this->session = $session;
         return $this;
@@ -301,9 +307,9 @@ class HttpRequest
      * 要求ヘダーを設定する。
      *
      * @param HttpHeaders $headers
-     * @return self
+     * @return static
      */
-    public function setHeaders(HttpHeaders $headers): self
+    public function setHeaders(HttpHeaders $headers): static
     {
         $this->headers = $headers;
         return $this;
@@ -329,9 +335,9 @@ class HttpRequest
      * ボデークエリを設定する。
      *
      * @param Queries $bodyQueries
-     * @return self
+     * @return static
      */
-    public function setBodyQueries(UriQueries $bodyQueries): self
+    public function setBodyQueries(UriQueries $bodyQueries): static
     {
         $this->bodyQueries = $bodyQueries;
         return $this;
@@ -357,9 +363,9 @@ class HttpRequest
      * アップロードファイルを設定する。
      *
      * @param UploadFiles $uploadFiles
-     * @return self
+     * @return static
      */
-    public function setUploadFiles(UploadFiles $uploadFiles): self
+    public function setUploadFiles(UploadFiles $uploadFiles): static
     {
         $this->uploadFiles = $uploadFiles;
         return $this;
